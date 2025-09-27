@@ -1,0 +1,62 @@
+@import 'variables';
+
+// Main arcitecture
+body {
+  background: $bg-color;
+  color: $text-color;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #66BB6A;
+}
+
+.section-grey {
+  background: $grey-light;
+  padding: 2rem;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+     &:hover {
+    color: #2E7D32;
+  }
+}
+
+
+// Buttons 
+.btn-primary {
+  background: $primaryBtn;
+  color: $bg-color;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  &:hover {
+    background: $primaryBtn-hover;
+  }
+}
+
+.btn-secondary {
+  background: $secondaryBtn;
+  color: $bg-color;
+  &:hover {
+    background: $secondaryBtn-hover;
+  }
+}
+
+.btn-danger {
+  background: $dangerBtn;
+  color: $bg-color;
+  &:hover {
+    background: $dangerBtn-hover;
+  }
+}
+
+
+
