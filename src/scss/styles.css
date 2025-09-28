@@ -11,6 +11,20 @@ header {
   align-items: center;
   padding: 1rem 2rem;
   background-color: #66BB6A;
+  font-family: "Funnel Display", sans-serif;
+}
+
+.container {
+  border-radius: 2rem;
+  max-width: 1200px;
+  margin: 2em auto;
+  padding: 1rem;
+}
+
+#logo {
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-family: "Noto Sans SC", sans-serif;
 }
 
 .section-grey {
@@ -24,6 +38,14 @@ a {
 }
 a:hover {
   color: #2E7D32;
+}
+
+h1, h2, h3 {
+  font-family: "Lexend Zetta", sans-serif;
+}
+
+p {
+  font-family: "Noto Sans SC", sans-serif;
 }
 
 .btn-primary {
