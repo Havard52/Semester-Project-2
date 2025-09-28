@@ -81,7 +81,6 @@ font-family: "Noto Sans SC", sans-serif;
 }
 
 //Feed
-
 .feedCointainer {
   display: flex;
   flex-wrap: wrap;
@@ -101,6 +100,19 @@ font-family: "Noto Sans SC", sans-serif;
   padding: 1rem;
   margin-bottom: 1rem;
 }
+
+.card-img-top {
+  width: 100%;
+  height: 200px;  
+  object-fit: cover;
+  border-radius: 1rem;
+}
+
+.load-more-btn {
+  display: block;
+  margin: 20px auto; 
+}
+
 
 
 

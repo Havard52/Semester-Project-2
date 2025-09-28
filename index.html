@@ -12,64 +12,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Noto+Sans+SC:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header >
-        <a href="index.html" id="logo"><h1>ANS</h1></a>
-            <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">    
-            <div class="dropdown me-2">
-                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Filter by
-                </button>
-                <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Title</a></li>
-                <li><a class="dropdown-item" href="#">ID</a></li>
-                </ul>
-            </div>          
-            <button class="btn btn-primary" type="submit">Search</button>
-            </form>
-        <a href="login.html">log in</a>
-    </header>
-    <main>
-        <section class=" container section-grey text-center"> 
-            <h2>Welcome to Auction Network Society</h2> 
-            <p>Your premier platform for online auctions. Join us to explore a wide range of items and place your bids today!</p> 
-            <a href="login.html" class="btn btn-primary">Get Started</a> 
-        </section> 
-                <section class="feedCointainer">
-                <div class="card d-flex flex-column align-items-center">
-                    <div class="card-body">
-                    <h5 class="card-title">Bicycle</h5>
-                    <p>id:</p>
-                    <p>Ends at:</p>
-                    <img src="" alt="">
-                    <p>Description</p>
-                    </div>
-                </div>
-                <div class="card d-flex flex-column align-items-center">
-                    <div class="card-body">
-                    <h5 class="card-title">Bicycle</h5>
-                    <p>id:</p>
-                    <p>Ends at:</p>
-                    <img src="" alt="">
-                    <p>Description</p>
-                    </div>
-                </div>
-                <div class="card d-flex flex-column align-items-center">
-                    <div class="card-body">
-                    <h5 class="card-title">Bicycle</h5>
-                    <p>id:</p>
-                    <p>Ends at:</p>
-                    <img src="" alt="">
-                    <p>Description</p>
-                    </div>
-                </div>
-                </section>
-    </main>
-    <footer class="section-grey text-center footer fixed-bottom">
-        <p>Auction Network Society</p>
-        <p>2025</p>
-        <p>&copy; Håvard Vavik</p>
-    </footer>
+  <header class="fixed-top">
+    <a href="index.html" id="logo"><h1>ANS</h1></a>
+    <form class="d-flex" role="search">
+      <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
+      <div class="dropdown me-2">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Filter by
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Title</a></li>
+          <li><a class="dropdown-item" href="#">ID</a></li>
+        </ul>
+      </div>
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+    <a href="login.html">log in</a>
+  </header>
+
+  <main>
+    <section class="container section-grey text-center">
+      <h2>Welcome to Auction Network Society</h2>
+      <p>Your premier platform for online auctions. Join us to explore a wide range of items and place your bids today!</p>
+      <a href="login.html" class="btn btn-primary">Get Started</a>
+    </section>
+
+    <section class="feedCointainer container d-flex flex-wrap justify-content-between my-4">
+    </section>
+  </main>
+
+  <footer class="footer mt-auto section-grey text-center">
+    <p>Auction Network Society</p>
+    <p>2025</p>
+    <p>&copy; Håvard Vavik</p>
+  </footer>
 </body>
 <script type="module" src="/js/index.mjs"></script>
 </html>
