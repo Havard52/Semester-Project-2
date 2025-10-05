@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANS | User Profile</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="src/scss/styles.css">
+</head>
+<body>
+<header class="d-flex justify-content-between align-items-center p-3 border-bottom">
+  <a href="index.html" id="logo"><h1>ANS</h1></a>
+  <div id="user-info"></div>
+</header>
+<main class="container my-5">
+  <div class="text-center mb-4">
+    <img id="userAvatar" src="default-avatar.jpg" alt="Avatar" class="rounded-circle" style="width:120px;height:120px;">
+    <h2 id="userName">Username</h2>
+    <p id="userCredits">0 credits</p>
+  </div>
+  <form id="updateProfileForm">
+    <div class="mb-3">
+      <label for="avatarUrl" class="form-label">Avatar URL</label>
+      <input type="url" class="form-control" id="avatarUrl" placeholder="https://example.com/avatar.jpg">
+    </div>
+    <div class="mb-3">
+      <label for="bannerUrl" class="form-label">Banner URL</label>
+      <input type="url" class="form-control" id="bannerUrl" placeholder="https://example.com/banner.jpg">
+    </div>
+    <div class="mb-3">
+      <label for="bio" class="form-label">Bio</label>
+      <textarea class="form-control" id="bio" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Update Profile</button>
+  </form>
+  <h3 class="mt-5">Listings by User</h3>
+  <div class="user-listings d-flex flex-wrap"></div>
+</main>
+<script type="module" src="/js/user.mjs"></script>
+</body>
+</html>
