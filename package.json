@@ -1,0 +1,29 @@
+{
+  "name": "semester-project-2",
+  "version": "1.0.0",
+  "description": "A new fictional auction webside is set to launch a website that allows users to create listings and participate in auctions by bidding on other users’ items.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Havard52/Semester-Project-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Havard52/Semester-Project-2/issues"
+  },
+  "homepage": "https://github.com/Havard52/Semester-Project-2#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "sass": "^1.93.2"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+  }
+}

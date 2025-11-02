@@ -1,0 +1,119 @@
+@import 'variables';
+
+
+// Main arcitecture
+body {
+  background: $bg-color;
+  color: $text-color;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #66BB6A;
+    font-family: "Funnel Display", sans-serif;
+}
+
+.container {
+border-radius:  2rem;
+  max-width: 1200px;
+  margin: 2em auto;
+  padding: 1rem;
+}
+
+#logo {
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-family: "Noto Sans SC", sans-serif; }
+
+
+.section-grey {
+  background: $grey-light;
+  padding: 2rem;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+     &:hover {
+    color: #2E7D32;
+  }
+}
+
+h1, h2, h3 {
+  font-family: "Lexend Zetta", sans-serif;
+}
+
+p {
+font-family: "Noto Sans SC", sans-serif;
+}
+
+// Buttons 
+.btn-primary {
+  background: $primaryBtn;
+  color: $bg-color;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  &:hover {
+    background: $primaryBtn-hover;
+  }
+}
+
+.btn-secondary {
+  background: $secondaryBtn;
+  color: $bg-color;
+  &:hover {
+    background: $secondaryBtn-hover;
+  }
+}
+
+.btn-danger {
+  background: $dangerBtn;
+  color: $bg-color;
+  &:hover {
+    background: $dangerBtn-hover;
+  }
+}
+
+//Feed
+.feedCointainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; 
+  padding: 2rem 0;
+  max-width: 1200px; 
+  margin: 0 auto;
+  gap: 1rem; 
+}
+
+.card {
+  flex: 0 1 calc(33.33% - 0.67rem);
+  box-sizing: border-box;
+  background: $grey-light;
+  border: none;
+  border-radius: 2rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 200px;  
+  object-fit: cover;
+  border-radius: 1rem;
+}
+
+.load-more-btn {
+  display: block;
+  margin: 20px auto; 
+}
+
+
+
+
+
