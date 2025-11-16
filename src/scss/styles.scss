@@ -1,7 +1,6 @@
 @import 'variables';
 
-
-// Main arcitecture
+// Main architecture
 body {
   background: $bg-color;
   color: $text-color;
@@ -10,26 +9,37 @@ body {
 }
 
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #66BB6A;
-    font-family: "Funnel Display", sans-serif;
-}
-
-.container {
-border-radius:  2rem;
-  max-width: 1200px;
-  margin: 2em auto;
-  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #66BB6A;
+  font-family: "Funnel Display", sans-serif;
+  z-index: 1000; 
 }
 
 #logo {
   font-size: 1.5rem;
   font-weight: 900;
-  font-family: "Noto Sans SC", sans-serif; }
+  font-family: "Noto Sans SC", sans-serif;
+}
 
+main {
+  padding-top: 140px; 
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-top: 180px; 
+  }
+}
+
+.container {
+  border-radius: 2rem;
+  max-width: 1200px;
+  margin: 0 auto; 
+  padding: 1rem;
+}
 
 .section-grey {
   background: $grey-light;
@@ -37,9 +47,9 @@ border-radius:  2rem;
 }
 
 a {
-    text-decoration: none;
-    color: black;
-     &:hover {
+  text-decoration: none;
+  color: black;
+  &:hover {
     color: #2E7D32;
   }
 }
@@ -49,10 +59,10 @@ h1, h2, h3 {
 }
 
 p {
-font-family: "Noto Sans SC", sans-serif;
+  font-family: "Noto Sans SC", sans-serif;
 }
 
-// Buttons 
+// Buttons
 .btn-primary {
   background: $primaryBtn;
   color: $bg-color;
@@ -80,19 +90,19 @@ font-family: "Noto Sans SC", sans-serif;
   }
 }
 
-//Feed
+// Feed
 .feedCointainer {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between; 
+  justify-content: space-between;
   padding: 2rem 0;
-  max-width: 1200px; 
+  max-width: 1200px;
   margin: 0 auto;
-  gap: 1rem; 
+  gap: 1rem;
 }
 
 .card {
-  flex: 0 1 calc(33.33% - 0.67rem);
+  flex: 0 1 calc(33.33% - 1rem);
   box-sizing: border-box;
   background: $grey-light;
   border: none;
@@ -103,17 +113,61 @@ font-family: "Noto Sans SC", sans-serif;
 
 .card-img-top {
   width: 100%;
-  height: 200px;  
+  height: 200px;
   object-fit: cover;
   border-radius: 1rem;
 }
 
 .load-more-btn {
   display: block;
-  margin: 20px auto; 
+  margin: 20px auto;
 }
 
+// MOBILE LAYOUT (<768px)
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column !important;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  #filterForm {
+    flex-direction: column !important;
+    width: 100%;
+  }
 
 
+  #filterForm select,
+  #filterForm input,
+  #filterForm button {
+    width: 100% !important;
+    margin: 5px 0 !important;
+  }
 
+  #user-info {
+    align-self: flex-end;
+    margin-top: 10px;
+  }
+
+
+  // Cards 1 per row
+  .card {
+    flex: 0 1 100% !important;
+    margin-bottom: 1rem;
+  }
+}
+
+// Tablets: 2 cards
+@media (min-width: 769px) and (max-width: 1199px) {
+  .card {
+    flex: 0 1 48% !important;
+  }
+}
+
+// Large screens: 4 cards
+@media (min-width: 1200px) {
+  .card {
+    flex: 0 1 22% !important;
+  }
+}
 
