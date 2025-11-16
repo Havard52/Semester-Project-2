@@ -16,15 +16,15 @@ const storedUser = localStorage.getItem("ans_user");
 const token = localStorage.getItem("ans_token");
 let currentUser = storedUser ? JSON.parse(storedUser) : null;
 
-// Header update
+// Login update header
 function updateHeader() {
   const userInfo = document.getElementById("user-info");
+
   if (!currentUser) {
     userInfo.innerHTML = `<a href="login.html" class="btn btn-outline-light">Log in</a>`;
     return;
   }
 
-  //user get link to bio page and logut btn
   userInfo.innerHTML = `
     <a href="user.html?user=${encodeURIComponent(currentUser.name)}">
       <span class="fw-bold me-2">${currentUser.name}</span>
@@ -41,7 +41,7 @@ function updateHeader() {
 updateHeader();
 if (currentUser && newListingSection) newListingSection.style.display = "block";
 
-// Filter
+// Filters
 const filterSelect = document.getElementById("filterSelect");
 const userSearchInput = document.getElementById("userSearchInput");
 const filterForm = document.getElementById("filterForm");
@@ -54,100 +54,207 @@ filterForm.addEventListener("submit", (e) => {
   const filterValue = filterSelect.value;
   const userQuery = userSearchInput.value.trim().toLowerCase();
 
-  if (filterValue === "newest") filteredAuctions.sort((a,b) => new Date(b.created) - new Date(a.created));
-  else if (filterValue === "endsSoon") filteredAuctions.sort((a,b) => new Date(a.endsAt) - new Date(b.endsAt));
-  else if (filterValue === "user" && userQuery) filteredAuctions = filteredAuctions.filter(a => a.seller?.name.toLowerCase() === userQuery);
+  if (filterValue === "newest") {
+    filteredAuctions.sort((a, b) => new Date(b.created) - new Date(a.created));
+  } 
+  else if (filterValue === "endsSoon") {
+    filteredAuctions.sort((a, b) => new Date(a.endsAt) - new Date(b.endsAt));
+  }
+  else if (filterValue === "user" && userQuery) {
+    filteredAuctions = filteredAuctions.filter(a => 
+      a.seller?.name?.toLowerCase() === userQuery
+    );
+  }
 
   feed.innerHTML = "";
   displayCards(filteredAuctions);
 });
 
-//  Rate-limited fetch auctions
+
+// Fething auctions
 let lastFetchTime = 0;
-const FETCH_INTERVAL = 30 * 1000; 
+const FETCH_INTERVAL = 30 * 1000;
 
 async function fetchAuctions() {
   const now = Date.now();
+
+  // Rate limiting
   if (now - lastFetchTime < FETCH_INTERVAL && allAuctions.length > 0) {
-    console.log("Using cached auctions to prevent rate-limit");
     displayNextCards(12);
     return;
   }
 
   try {
-    const res = await fetch(`${baseURL}auction/listings?_seller=true&_bids=true`, {
-      headers: { "X-Noroff-API-Key": API_KEY }
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.errors?.[0]?.message || "Failed to fetch auctions");
+    const res = await fetch(
+      `${baseURL}auction/listings?sort=created&sortOrder=desc&limit=100&_active=true&_seller=true&_bids=true`,
+      {
+        headers: { "X-Noroff-API-Key": API_KEY }
+      }
+    );
 
-    allAuctions = data.data.sort((a,b) => new Date(b.created) - new Date(a.created));
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.errors?.[0]?.message || "Could not fetch auctions");
+
+    allAuctions = data.data;
     lastFetchTime = now;
+
+    feed.innerHTML = "";
+    currentIndex = 0;
     displayNextCards(12);
+
   } catch (err) {
-    console.error("Error fetching auctions:", err);
-    alert("Could not fetch auctions. Please try again later.");
+    console.error(err);
+    alert("Could not fetch auctions.");
   }
 }
 
-// Display cards
+// Dsplay cards
 function displayNextCards(count) {
   const nextItems = allAuctions.slice(currentIndex, currentIndex + count);
   displayCards(nextItems);
   currentIndex += nextItems.length;
+
   loadMoreBtn.style.display = currentIndex < allAuctions.length ? "block" : "none";
 }
 
 function displayCards(items) {
   items.forEach(item => {
-    const bids = (item.bids || []).sort((a,b) => b.amount - a.amount);
-    const bidsHTML = bids.map(bid => `
-      <div class="d-flex justify-content-between mb-1">
-        <span>${bid.bidder.name}</span>
-        <span>${bid.amount} credits</span>
-      </div>
-    `).join("");
+    const bids = (item.bids || []).sort((a, b) => b.amount - a.amount);
+    const highestBid = bids[0]?.amount || 0;
+
+    const bidsHTML = bids.length
+      ? bids.map(bid => `
+        <div class="d-flex justify-content-between mb-1">
+          <span>${bid.bidder?.name || "Unknown"}</span>
+          <span>${bid.amount} credits</span>
+        </div>
+      `).join("")
+      : `<span>No bids yet</span>`;
 
     const card = document.createElement("div");
     card.classList.add("card", "d-flex", "flex-column", "mb-3");
     card.style.flex = "0 1 calc(33% - 1rem)";
+
     card.innerHTML = `
       <div class="card-header d-flex justify-content-between align-items-center">
         <span>${item.title}</span>
-        <div class="d-flex align-items-center">
-          <a href="user.html?user=${encodeURIComponent(item.seller?.name)}">
-            <img src="${item.seller?.avatar?.url || 'default-avatar.jpg'}" alt="Avatar" class="rounded-circle me-2" style="width:32px;height:32px;">
-            <span class="fw-bold">${item.seller?.name || 'Unknown'}</span>
-          </a>
-        </div>
+        <a href="user.html?user=${encodeURIComponent(item.seller?.name)}">
+          <img src="${item.seller?.avatar?.url || 'default-avatar.jpg'}"
+               class="rounded-circle me-2"
+               style="width:32px;height:32px;">
+          <span class="fw-bold">${item.seller?.name}</span>
+        </a>
       </div>
-      <img src="${item.media[0]?.url || 'default-image.jpg'}" alt="${item.title}" class="card-img-top">
+
+      <img src="${item.media[0]?.url || 'default-image.jpg'}" class="card-img-top">
+
       <div class="card-body">
         <p>${item.description || ''}</p>
-        <p>Ends at: ${new Date(item.endsAt).toLocaleString()}</p>
+        <p>Ends: ${new Date(item.endsAt).toLocaleString()}</p>
+
         <h6>Bids:</h6>
-        <div class="bids-list mb-2">${bidsHTML || '<span>No bids yet</span>'}</div>
+        <div class="bids-list mb-2">${bidsHTML}</div>
 
-        ${currentUser && item.seller?.name !== currentUser.name ? `
-        <form class="bid-form d-flex">
-          <input type="number" min="${(bids[0]?.amount || 0) + 1}" class="form-control me-2" placeholder="Your bid" required>
-          <button class="btn btn-success" type="submit">Place Bid</button>
-        </form>` : ''}
+        ${
+          currentUser && item.seller?.name !== currentUser.name
+            ? `
+            <form class="bid-form" data-id="${item.id}">
+              <div class="d-flex">
+                <input type="number"
+                       class="form-control me-2"
+                       min="${highestBid + 1}"
+                       placeholder="Your bid"
+                       required>
+                <button class="btn btn-success" type="submit">Place Bid</button>
+              </div>
+            </form>`
+            : ""
+        }
 
-        ${currentUser && item.seller?.name === currentUser.name ? `
-          <button class="btn btn-danger delete-btn mt-2">Delete Listing</button>` : ''}
+        ${
+          currentUser && item.seller?.name === currentUser.name
+            ? `<button class="btn btn-danger delete-btn mt-2" data-id="${item.id}">Delete</button>`
+            : ""
+        }
       </div>
     `;
 
     feed.appendChild(card);
   });
+
+  attachBidListeners();
+  attachDeleteListeners();
 }
 
-loadMoreBtn.addEventListener("click", () => displayNextCards(24));
+// Bidding function
+function attachBidListeners() {
+  document.querySelectorAll(".bid-form").forEach(form => {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-// Create your own listing
+      if (!currentUser) return alert("You must be logged in.");
+
+      const listingId = form.dataset.id;
+      const bidAmount = form.querySelector("input").value;
+
+      try {
+        const res = await fetch(`${baseURL}auction/listings/${listingId}/bids`, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+            "X-Noroff-API-Key": API_KEY
+          },
+          body: JSON.stringify({ amount: Number(bidAmount) })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.errors?.[0]?.message || "Bid failed");
+
+        alert("Bid placed!");
+        fetchAuctions();
+
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+  });
+}
+
+
+// Delete own listing
+function attachDeleteListeners() {
+  document.querySelectorAll(".delete-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      if (!confirm("Delete this listing?")) return;
+
+      const id = btn.dataset.id;
+
+      try {
+        const res = await fetch(`${baseURL}auction/listings/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "X-Noroff-API-Key": API_KEY
+          }
+        });
+
+        if (!res.ok) throw new Error("Delete failed");
+
+        alert("Listing deleted.");
+        fetchAuctions();
+
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+  });
+}
+
+// Create a listing
 if (newListingSection) {
   const newListingForm = document.getElementById("newListingForm");
+
   newListingForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!currentUser) return;
@@ -172,10 +279,13 @@ if (newListingSection) {
           description
         })
       });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.errors?.[0]?.message || "Could not create listing.");
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.errors?.[0]?.message || "Failed to create listing");
+
       alert("Listing created!");
-      fetchAuctions(); 
+      fetchAuctions();
+
     } catch (err) {
       alert(err.message);
     }
